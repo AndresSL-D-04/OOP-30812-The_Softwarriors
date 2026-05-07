@@ -4,9 +4,4 @@ Studenter: Adrian Vizcaino
            Ronald Tipan
            Lenin Tipantiza
 Project:
-We're going to create Management Software for Neighborhood Stores.
-Unlike the complicated programs used by large supermarkets, this software is designed for the realities of the local store. 
-Its goal is to be a digital assistant that performs three main functions:
-* Manages cash: It tracks credit sales to prevent losses and ensures accurate cash register reconciliation.
-* Protects inventory: It alerts you before products expire and helps you sell by weight or unit without errors.
-* Saves time: It's so fast it can be used with just a keyboard.
+Management software for neighborhood stores. Unlike the complex systems used in supermarkets, this software is adapted to the real needs of local businesses. It acts as an intelligent digital assistant with three main functions: managing money (controlling credit sales and ensuring accurate cash register reconciliation), protecting inventory (alerting before expiration and allowing combo sales), and saving time (optimized for fast, keyboard-only operation).
