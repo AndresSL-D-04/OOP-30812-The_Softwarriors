@@ -11,22 +11,31 @@ import java.util.Scanner;
 public class ExpirationControl {
     
     public static void menu(Scanner sc) {
-        System.out.println("\n--- CONTROL DE VENCIMIENTO ---");
-        System.out.println("1. Generar alerta");
-        System.out.println("2. Enviar notificacion");
-        System.out.println("3. Verificar fechas");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+        System.out.println("\n--- EXPIRATION CONTROL ---");
+        System.out.println("1. Generate alert");
+        System.out.println("2. Send notification");
+        System.out.println("3. Verify dates");
+        System.out.print("Option: ");
         
-        switch(opt) {
-            case 1: generarAlerta(); break;
-            case 2: enviarNotificacion(); break;
-            case 3: verificarFechas(); break;
-            default: System.out.println("Opcion invalida");
+        int option = sc.nextInt();
+        
+        switch(option) {
+            case 1: generateAlert(); break;
+            case 2: sendNotification(); break;
+            case 3: verifyDates(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void generarAlerta() { System.out.println("Alerta generada"); }
-    private static void enviarNotificacion() { System.out.println("Notificacion enviada"); }
-    private static void verificarFechas() { System.out.println("Fechas verificadas"); }
+    private static void generateAlert() { 
+        System.out.println("Alert generated"); 
+    }
+    
+    private static void sendNotification() { 
+        System.out.println("Notification sent"); 
+    }
+    
+    private static void verifyDates() { 
+        System.out.println("Dates verified"); 
+    }
 }

@@ -18,127 +18,160 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 
 public class BackupSystem {
-    private static final String ARCHIVO = "backups.json";
+    private static final String FILE_NAME = "backups.json";
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
     private int backupId;
     private String fileName;
     private String status;
-    private String fecha;
+    private String date;
     
     public BackupSystem() {}
     
-    public BackupSystem(int backupId, String fileName, String status, String fecha) {
+    public BackupSystem(int backupId, String fileName, String status, String date) {
         this.backupId = backupId;
         this.fileName = fileName;
         this.status = status;
-        this.fecha = fecha;
+        this.date = date;
     }
     
     public static void menu(Scanner sc) {
-        System.out.println("\nRESPALDOS");
-        System.out.println("1. Crear respaldo");
-        System.out.println("2. Restaurar respaldo");
-        System.out.println("3. Eliminar respaldo");
-        System.out.println("4. Subir a la nube");
-        System.out.println("5. Descargar de la nube");
-        System.out.println("6. Ver todos los respaldos");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+        System.out.println("\nBackups");
+        System.out.println("1. Create backup");
+        System.out.println("2. Restore backup");
+        System.out.println("3. Delete backup");
+        System.out.println("4. Upload to cloud");
+        System.out.println("5. Download from cloud");
+        System.out.println("6. View all backups");
+        System.out.print("Option: ");
+        int option = sc.nextInt();
         
-        switch(opt) {
-            case 1: crearRespaldo(sc); break;
-            case 2: restaurarRespaldo(sc); break;
-            case 3: eliminarRespaldo(sc); break;
-            case 4: subirANube(); break;
-            case 5: descargarDeNube(); break;
-            case 6: verRespaldos(); break;
-            default: System.out.println("Opcion invalida");
+        switch(option) {
+            case 1: createBackup(sc); break;
+            case 2: restoreBackup(sc); break;
+            case 3: deleteBackup(sc); break;
+            case 4: uploadToCloud(); break;
+            case 5: downloadFromCloud(); break;
+            case 6: viewBackups(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void crearRespaldo(Scanner sc) {
-        System.out.print("Nombre del respaldo: ");
-        String nombre = sc.next();
+    private static void createBackup(Scanner sc) {
+        System.out.print("Backup name: ");
+        String name = sc.next();
         int id = (int)(System.currentTimeMillis() % 10000);
-        BackupSystem backup = new BackupSystem(id, nombre, "activo", java.time.LocalDate.now().toString());
         
-        List<BackupSystem> lista = cargarRespaldos();
-        lista.add(backup);
-        guardarRespaldos(lista);
-        System.out.println("Respaldo creado con ID: " + id);
+        BackupSystem backup = new BackupSystem(
+            id, 
+            name, 
+            "active", 
+            java.time.LocalDate.now().toString()
+        );
+        
+        List<BackupSystem> backupList = loadBackups();
+        backupList.add(backup);
+        saveBackups(backupList);
+        
+        System.out.println("Backup created with ID: " + id);
     }
     
-    private static void restaurarRespaldo(Scanner sc) {
-        System.out.print("ID del respaldo a restaurar: ");
+    private static void restoreBackup(Scanner sc) {
+        System.out.print("Backup ID to restore: ");
         int id = sc.nextInt();
-        List<BackupSystem> lista = cargarRespaldos();
-        for (BackupSystem b : lista) {
+        
+        List<BackupSystem> backupList = loadBackups();
+        
+        for (BackupSystem b : backupList) {
             if (b.backupId == id) {
-                System.out.println("Restaurando respaldo: " + b.fileName);
+                System.out.println("Restoring backup: " + b.fileName);
                 return;
             }
         }
-        System.out.println("Respaldo no encontrado");
+        
+        System.out.println("Backup not found");
     }
     
-    private static void eliminarRespaldo(Scanner sc) {
-        System.out.print("ID del respaldo a eliminar: ");
+    private static void deleteBackup(Scanner sc) {
+        System.out.print("Backup ID to delete: ");
         int id = sc.nextInt();
-        List<BackupSystem> lista = cargarRespaldos();
-        boolean eliminado = lista.removeIf(b -> b.backupId == id);
-        if (eliminado) {
-            guardarRespaldos(lista);
-            System.out.println("Respaldo eliminado");
+        
+        List<BackupSystem> backupList = loadBackups();
+        
+        boolean deleted = backupList.removeIf(b -> b.backupId == id);
+        
+        if (deleted) {
+            saveBackups(backupList);
+            System.out.println("Backup deleted");
         } else {
-            System.out.println("Respaldo no encontrado");
+            System.out.println("Backup not found");
         }
     }
     
-    private static void verRespaldos() {
-        List<BackupSystem> lista = cargarRespaldos();
-        if (lista.isEmpty()) {
-            System.out.println("No hay respaldos guardados");
+    private static void viewBackups() {
+        List<BackupSystem> backupList = loadBackups();
+        
+        if (backupList.isEmpty()) {
+            System.out.println("No backups saved");
         } else {
-            System.out.println("\nRESPALDOS GUARDADOS");
-            for (BackupSystem b : lista) {
-                System.out.println("ID: " + b.backupId + " | Nombre: " + b.fileName + " | Estado: " + b.status + " | Fecha: " + b.fecha);
+            System.out.println("\nSAVED BACKUPS");
+            
+            for (BackupSystem b : backupList) {
+                System.out.println(
+                    "ID: " + b.backupId +
+                    " | Name: " + b.fileName +
+                    " | Status: " + b.status +
+                    " | Date: " + b.date
+                );
             }
         }
     }
     
-    private static void subirANube() { 
-        System.out.println("Respaldo subido a la nube"); 
+    private static void uploadToCloud() { 
+        System.out.println("Backup uploaded to cloud"); 
     }
     
-    private static void descargarDeNube() { 
-        System.out.println("Respaldo descargado de la nube"); 
+    private static void downloadFromCloud() { 
+        System.out.println("Backup downloaded from cloud"); 
     }
     
-    private static List<BackupSystem> cargarRespaldos() {
+    private static List<BackupSystem> loadBackups() {
         try {
-            File file = new File(ARCHIVO);
+            File file = new File(FILE_NAME);
+            
             if (file.exists()) {
-                String contenido = new String(java.nio.file.Files.readAllBytes(file.toPath()));
-                Type tipoLista = new TypeToken<ArrayList<BackupSystem>>(){}.getType();
-                List<BackupSystem> lista = gson.fromJson(contenido, tipoLista);
-                if (lista != null) {
-                    return lista;
+                String content = new String(
+                    java.nio.file.Files.readAllBytes(file.toPath())
+                );
+                
+                Type listType = new TypeToken<ArrayList<BackupSystem>>(){}.getType();
+                
+                List<BackupSystem> backupList = gson.fromJson(content, listType);
+                
+                if (backupList != null) {
+                    return backupList;
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error al cargar respaldos: " + e.getMessage());
+            System.out.println("Error loading backups: " + e.getMessage());
         }
+        
         return new ArrayList<>();
     }
     
-    private static void guardarRespaldos(List<BackupSystem> lista) {
+    private static void saveBackups(List<BackupSystem> backupList) {
         try {
-            String json = gson.toJson(lista);
-            java.nio.file.Files.write(java.nio.file.Paths.get(ARCHIVO), json.getBytes());
-            System.out.println("Datos guardados en " + ARCHIVO);
+            String json = gson.toJson(backupList);
+            
+            java.nio.file.Files.write(
+                java.nio.file.Paths.get(FILE_NAME),
+                json.getBytes()
+            );
+            
+            System.out.println("Data saved in " + FILE_NAME);
+            
         } catch (Exception e) {
-            System.out.println("Error al guardar respaldos: " + e.getMessage());
+            System.out.println("Error saving backups: " + e.getMessage());
         }
     }
 }
