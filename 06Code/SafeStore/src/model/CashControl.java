@@ -14,25 +14,37 @@ import java.util.Scanner;
 public class CashControl {
     
     public static void menu(Scanner sc) {
-        System.out.println("\nCONTROL DE CAJA");
-        System.out.println("1. Abrir caja");
-        System.out.println("2. Cerrar caja");
-        System.out.println("3. Calcular total");
-        System.out.println("4. Calcular diferencia");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+        System.out.println("\nCASH CONTROL");
+        System.out.println("1. Open cash register");
+        System.out.println("2. Close cash register");
+        System.out.println("3. Calculate total");
+        System.out.println("4. Calculate difference");
+        System.out.print("Option: ");
         
-        switch(opt) {
-            case 1: abrirCaja(); break;
-            case 2: cerrarCaja(); break;
-            case 3: calcularTotal(); break;
-            case 4: calcularDiferencia(); break;
-            default: System.out.println("Opcion invalida");
+        int option = sc.nextInt();
+        
+        switch(option) {
+            case 1: openCashRegister(); break;
+            case 2: closeCashRegister(); break;
+            case 3: calculateTotal(); break;
+            case 4: calculateDifference(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void abrirCaja() { System.out.println("Caja abierta"); }
-    private static void cerrarCaja() { System.out.println("Caja cerrada"); }
-    private static void calcularTotal() { System.out.println("Total calculado"); }
-    private static void calcularDiferencia() { System.out.println("Diferencia calculada"); }
+    private static void openCashRegister() { 
+        System.out.println("Cash register opened"); 
+    }
+    
+    private static void closeCashRegister() { 
+        System.out.println("Cash register closed"); 
+    }
+    
+    private static void calculateTotal() { 
+        System.out.println("Total calculated"); 
+    }
+    
+    private static void calculateDifference() { 
+        System.out.println("Difference calculated"); 
+    }
 }

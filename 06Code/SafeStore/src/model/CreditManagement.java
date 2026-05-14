@@ -13,28 +13,43 @@ import java.util.Scanner;
 public class CreditManagement {
     
     public static void menu(Scanner sc) {
-        System.out.println("\n--- CREDITOS ---");
-        System.out.println("1. Agregar deuda");
-        System.out.println("2. Realizar pago");
-        System.out.println("3. Verificar limite");
-        System.out.println("4. Bloquear cuenta");
-        System.out.println("5. Registrar pago");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+        System.out.println("\n--- CREDITS ---");
+        System.out.println("1. Add debt");
+        System.out.println("2. Make payment");
+        System.out.println("3. Verify limit");
+        System.out.println("4. Block account");
+        System.out.println("5. Register payment");
+        System.out.print("Option: ");
         
-        switch(opt) {
-            case 1: agregarDeuda(); break;
-            case 2: realizarPago(); break;
-            case 3: verificarLimite(); break;
-            case 4: bloquearCuenta(); break;
-            case 5: registrarPago(); break;
-            default: System.out.println("Opcion invalida");
+        int option = sc.nextInt();
+        
+        switch(option) {
+            case 1: addDebt(); break;
+            case 2: makePayment(); break;
+            case 3: verifyLimit(); break;
+            case 4: blockAccount(); break;
+            case 5: registerPayment(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void agregarDeuda() { System.out.println("Deuda agregada"); }
-    private static void realizarPago() { System.out.println("Pago realizado"); }
-    private static void verificarLimite() { System.out.println("Limite verificado"); }
-    private static void bloquearCuenta() { System.out.println("Cuenta bloqueada"); }
-    private static void registrarPago() { System.out.println("Pago registrado"); }
+    private static void addDebt() { 
+        System.out.println("Debt added"); 
+    }
+    
+    private static void makePayment() { 
+        System.out.println("Payment made"); 
+    }
+    
+    private static void verifyLimit() { 
+        System.out.println("Limit verified"); 
+    }
+    
+    private static void blockAccount() { 
+        System.out.println("Account blocked"); 
+    }
+    
+    private static void registerPayment() { 
+        System.out.println("Payment registered"); 
+    }
 }
