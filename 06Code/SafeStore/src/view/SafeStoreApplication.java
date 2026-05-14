@@ -1,55 +1,52 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package view;
 
-/**
- *
- * @author Adrian Vizcaino <The-Softwarriors at ESPE>
- */
 import model.*;
 import java.util.Scanner;
+/**
+ *
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ */
+
 
 public class SafeStoreApplication {
-    private static Scanner sc = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
         while (true) {
-            System.out.println("\n=== SISTEMA SAFESTORE ===");
-            System.out.println("1. Respaldos");
-            System.out.println("2. Control de Caja");
+            System.out.println("\n=== SAFESTORE SYSTEM ===");
+            System.out.println("1. Backups");
+            System.out.println("2. Cash Control");
             System.out.println("3. Combos");
-            System.out.println("4. Creditos");
-            System.out.println("5. Redondeo Festivo");
-            System.out.println("6. Control de Vencimiento");
-            System.out.println("7. Multiples Codigos");
-            System.out.println("8. Reporte Baja Rotacion");
-            System.out.println("9. Alertas de Stock");
-            System.out.println("10. Impresion Termica");
-            System.out.println("11. Interfaz Adaptable");
-            System.out.println("12. Ventas por Peso");
-            System.out.println("0. Salir");
-            System.out.print("Opcion: ");
+            System.out.println("4. Credits");
+            System.out.println("5. Holiday Rounding");
+            System.out.println("6. Expiration Control");
+            System.out.println("7. Multiple Codes");
+            System.out.println("8. Slow Moving Report");
+            System.out.println("9. Stock Alerts");
+            System.out.println("10. Thermal Printing");
+            System.out.println("11. Adaptive UI");
+            System.out.println("12. Weight Based Sales");
+            System.out.println("13. Exit");
+            System.out.print("Option: ");
             
-            int opcion = sc.nextInt();
-            sc.nextLine();
+            int option = scanner.nextInt();
+            scanner.nextLine();
             
-            switch (opcion) {
-                case 1: BackupSystem.menu(sc); break;
-                case 2: CashControl.menu(sc); break;
-                case 3: ComboSystem.menu(sc); break;
-                case 4: CreditManagement.menu(sc); break;
-                case 5: HolidayRoundMode.menu(sc); break;
-                case 6: ExpirationControl.menu(sc); break;
-                case 7: ProductMultiCode.menu(sc); break;
-                case 8: SlowMovingReport.menu(sc); break;
-                case 9: StockMinAlert.menu(sc); break;
-                case 10: ThermalPrinting.menu(sc); break;
-                case 11: UIAdaptive.menu(sc); break;
-                case 12: WeightSales.menu(sc); break;
-                case 0: System.out.println("Hasta luego!"); return;
-                default: System.out.println("Opcion invalida");
+            switch (option) {
+                case 1: BackupSystem.menu(scanner); break;
+                case 2: CashControl.menu(scanner); break;
+                case 3: ComboSystem.menu(scanner); break;
+                case 4: CreditManagement.menu(scanner); break;
+                case 5: HolidayRoundMode.menu(scanner); break;
+                case 6: ExpirationControl.menu(scanner); break;
+                case 7: ProductMultiCode.menu(scanner); break;
+                case 8: SlowMovingReport.menu(scanner); break;
+                case 9: StockMinAlert.menu(scanner); break;
+                case 10: ThermalPrinting.menu(scanner); break;
+                case 11: UIAdaptive.menu(scanner); break;
+                case 12: WeightSales.menu(scanner); break;
+                case 0: System.out.println("Goodbye!"); return;
+                default: System.out.println("Invalid option");
             }
         }
     }

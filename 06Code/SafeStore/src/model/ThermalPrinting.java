@@ -1,40 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
+import java.util.Scanner;
 /**
  *
- * @author Adrian Vizcaino <The-Softwarriors at ESPE>
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
  */
-import java.util.Scanner;
+
 
 public class ThermalPrinting {
     
-    public static void menu(Scanner sc) {
-        System.out.println("\n--- IMPRESION TERMICA ---");
-        System.out.println("1. Conectar impresora");
-        System.out.println("2. Imprimir prueba");
-        System.out.println("3. Generar ticket");
-        System.out.println("4. Imprimir ticket");
-        System.out.println("5. Actualizar informacion");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+    public static void menu(Scanner scanner) {
+        System.out.println("\n--- THERMAL PRINTING ---");
+        System.out.println("1. Connect printer");
+        System.out.println("2. Print test");
+        System.out.println("3. Generate ticket");
+        System.out.println("4. Print ticket");
+        System.out.println("5. Update information");
+        System.out.print("Option: ");
+        int option = scanner.nextInt();
         
-        switch(opt) {
-            case 1: conectarImpresora(); break;
-            case 2: imprimirPrueba(); break;
-            case 3: generarTicket(); break;
-            case 4: imprimirTicket(); break;
-            case 5: actualizarInfo(); break;
-            default: System.out.println("Opcion invalida");
+        switch(option) {
+            case 1: connectPrinter(); break;
+            case 2: printTest(); break;
+            case 3: generateTicket(); break;
+            case 4: printTicket(); break;
+            case 5: updateInformation(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void conectarImpresora() { System.out.println("Impresora conectada"); }
-    private static void imprimirPrueba() { System.out.println("Prueba impresa"); }
-    private static void generarTicket() { System.out.println("Ticket generado"); }
-    private static void imprimirTicket() { System.out.println("Ticket impreso"); }
-    private static void actualizarInfo() { System.out.println("Informacion actualizada"); }
+    private static void connectPrinter() { System.out.println("Printer connected"); }
+    private static void printTest() { System.out.println("Test printed"); }
+    private static void generateTicket() { System.out.println("Ticket generated"); }
+    private static void printTicket() { System.out.println("Ticket printed"); }
+    private static void updateInformation() { System.out.println("Information updated"); }
 }

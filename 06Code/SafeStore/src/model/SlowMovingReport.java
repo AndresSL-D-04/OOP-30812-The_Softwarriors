@@ -1,32 +1,34 @@
-
 package model;
+
 import java.util.Scanner;
 /**
  *
- * @author Alexander Tipantiza, The Softwarrios, @ESPE
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
  */
+
+
 public class SlowMovingReport {
-    public static void menu(Scanner sc) {
-        System.out.println("\n--- BAJA ROTACION ---");
-        System.out.println("1. Analizar productos");
-        System.out.println("2. Crear reporte");
-        System.out.println("3. Exportar a PDF");
-        System.out.println("4. Recomendar reabastecimiento");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+    
+    public static void menu(Scanner scanner) {
+        System.out.println("\n--- SLOW MOVING REPORT ---");
+        System.out.println("1. Analyze products");
+        System.out.println("2. Create report");
+        System.out.println("3. Export to PDF");
+        System.out.println("4. Recommend restock");
+        System.out.print("Option: ");
+        int option = scanner.nextInt();
         
-        switch(opt) {
-            case 1: analizarProductos(); break;
-            case 2: crearReporte(); break;
-            case 3: exportarPDF(); break;
-            case 4: recomendarReabastecimiento(); break;
-            default: System.out.println("Opcion invalida");
+        switch(option) {
+            case 1: analyzeProducts(); break;
+            case 2: createReport(); break;
+            case 3: exportToPDF(); break;
+            case 4: recommendRestock(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void analizarProductos() { System.out.println("Analizando productos"); }
-    private static void crearReporte() { System.out.println("Reporte creado"); }
-    private static void exportarPDF() { System.out.println("Exportado a PDF"); }
-    private static void recomendarReabastecimiento() { System.out.println("Recomendacion generada"); }
-    
+    private static void analyzeProducts() { System.out.println("Analyzing products"); }
+    private static void createReport() { System.out.println("Report created"); }
+    private static void exportToPDF() { System.out.println("Exported to PDF"); }
+    private static void recommendRestock() { System.out.println("Recommendation generated"); }
 }

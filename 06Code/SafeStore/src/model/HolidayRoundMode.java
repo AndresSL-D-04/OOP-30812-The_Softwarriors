@@ -1,42 +1,38 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Scanner;
 /**
  *
- * @author Ronald Tipan, The Softwarriors, @ESPE
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
  */
 public class HolidayRoundMode {
     
-    public static void menu(Scanner sc) {
-        System.out.println("\n--- REDONDEO FESTIVO ---");
-        System.out.println("1. Activar modo festivo");
-        System.out.println("2. Desactivar modo festivo");
-        System.out.println("3. Configurar regla");
-        System.out.println("4. Aplicar redondeo");
-        System.out.println("5. Agregar dia festivo");
-        System.out.println("6. Ver reporte");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+    public static void menu(Scanner scanner) {
+        System.out.println("\n--- HOLIDAY ROUNDING ---");
+        System.out.println("1. Activate holiday mode");
+        System.out.println("2. Deactivate holiday mode");
+        System.out.println("3. Configure rule");
+        System.out.println("4. Apply rounding");
+        System.out.println("5. Add holiday");
+        System.out.println("6. View report");
+        System.out.print("Option: ");
+        int option = scanner.nextInt();
         
-        switch(opt) {
-            case 1: activarModoFestivo(); break;
-            case 2: desactivarModoFestivo(); break;
-            case 3: configurarRegla(); break;
-            case 4: aplicarRedondeo(); break;
-            case 5: agregarDiaFestivo(); break;
-            case 6: verReporte(); break;
-            default: System.out.println("Opcion invalida");
+        switch(option) {
+            case 1: activateHolidayMode(); break;
+            case 2: deactivateHolidayMode(); break;
+            case 3: configureRule(); break;
+            case 4: applyRounding(); break;
+            case 5: addHoliday(); break;
+            case 6: viewReport(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void activarModoFestivo() { System.out.println("Modo festivo activado"); }
-    private static void desactivarModoFestivo() { System.out.println("Modo festivo desactivado"); }
-    private static void configurarRegla() { System.out.println("Regla configurada"); }
-    private static void aplicarRedondeo() { System.out.println("Redondeo aplicado"); }
-    private static void agregarDiaFestivo() { System.out.println("Dia festivo agregado"); }
-    private static void verReporte() { System.out.println("Reporte generado"); }
+    private static void activateHolidayMode() { System.out.println("Holiday mode activated"); }
+    private static void deactivateHolidayMode() { System.out.println("Holiday mode deactivated"); }
+    private static void configureRule() { System.out.println("Rule configured"); }
+    private static void applyRounding() { System.out.println("Rounding applied"); }
+    private static void addHoliday() { System.out.println("Holiday added"); }
+    private static void viewReport() { System.out.println("Report generated"); }
 }

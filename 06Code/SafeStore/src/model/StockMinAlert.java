@@ -1,36 +1,37 @@
-
 package model;
+
 import java.util.Scanner;
 /**
  *
- * @author Alexander Tipantiza, The Softwarrios, @ESPE
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
  */
+
+
 public class StockMinAlert {
     
-    public static void menu(Scanner sc) {
-        System.out.println("\n--- ALERTAS DE STOCK ---");
-        System.out.println("1. Configurar stock minimo");
-        System.out.println("2. Configurar stock maximo");
-        System.out.println("3. Generar alerta");
-        System.out.println("4. Registrar movimiento");
-        System.out.println("5. Ver stock actual");
-        System.out.print("Opcion: ");
-        int opt = sc.nextInt();
+    public static void menu(Scanner scanner) {
+        System.out.println("\n--- STOCK ALERTS ---");
+        System.out.println("1. Configure minimum stock");
+        System.out.println("2. Configure maximum stock");
+        System.out.println("3. Generate alert");
+        System.out.println("4. Record movement");
+        System.out.println("5. View current stock");
+        System.out.print("Option: ");
+        int option = scanner.nextInt();
         
-        switch(opt) {
-            case 1: configurarMinimo(); break;
-            case 2: configurarMaximo(); break;
-            case 3: generarAlerta(); break;
-            case 4: registrarMovimiento(); break;
-            case 5: verStockActual(); break;
-            default: System.out.println("Opcion invalida");
+        switch(option) {
+            case 1: configureMinimum(); break;
+            case 2: configureMaximum(); break;
+            case 3: generateAlert(); break;
+            case 4: recordMovement(); break;
+            case 5: viewCurrentStock(); break;
+            default: System.out.println("Invalid option");
         }
     }
     
-    private static void configurarMinimo() { System.out.println("Stock minimo configurado"); }
-    private static void configurarMaximo() { System.out.println("Stock maximo configurado"); }
-    private static void generarAlerta() { System.out.println("Alerta generada"); }
-    private static void registrarMovimiento() { System.out.println("Movimiento registrado"); }
-    private static void verStockActual() { System.out.println("Stock actual: 100 unidades"); }
-    
+    private static void configureMinimum() { System.out.println("Minimum stock configured"); }
+    private static void configureMaximum() { System.out.println("Maximum stock configured"); }
+    private static void generateAlert() { System.out.println("Alert generated"); }
+    private static void recordMovement() { System.out.println("Movement recorded"); }
+    private static void viewCurrentStock() { System.out.println("Current stock: 100 units"); }
 }
