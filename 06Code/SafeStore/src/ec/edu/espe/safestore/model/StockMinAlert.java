@@ -3,7 +3,7 @@ package ec.edu.espe.safestore.model;
 import java.util.Scanner;
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author Adrian Vizcaino, The Softwarriors, @ESPE
  */
 
 

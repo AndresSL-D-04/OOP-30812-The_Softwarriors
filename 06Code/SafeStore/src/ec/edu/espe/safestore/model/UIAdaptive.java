@@ -3,9 +3,8 @@ package ec.edu.espe.safestore.model;
 import java.util.Scanner;
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author Adrian , The Softwarriors, @ESPE
  */
-
 
 public class UIAdaptive {
     

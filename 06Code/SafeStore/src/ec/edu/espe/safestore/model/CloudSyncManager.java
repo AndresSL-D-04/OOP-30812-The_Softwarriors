@@ -118,7 +118,7 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== VENTAS ====================
+ 
     
     public static void uploadSales() {
         try {
@@ -161,7 +161,6 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== PROVEEDORES ====================
     
     public static void uploadSuppliers() {
         try {
@@ -204,7 +203,6 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== RESERVAS ====================
     
     public static void uploadReservations() {
         try {
@@ -247,7 +245,7 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== CREDITOS ====================
+
     
     public static void uploadCredits() {
         try {
@@ -290,7 +288,6 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== COMBOS ====================
     
     public static void uploadCombos() {
         try {
@@ -333,7 +330,6 @@ public class CloudSyncManager {
         }
     }
     
-    // ==================== TODOS ====================
     
     public static void uploadAll() {
         System.out.println("=== SUBIENDO TODOS LOS DATOS A LA NUBE ===");
