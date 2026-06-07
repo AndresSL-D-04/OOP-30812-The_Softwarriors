@@ -3,7 +3,7 @@ package ec.edu.espe.safestore.model;
 import java.util.Scanner;
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author ronald , The Softwarriors, @ESPE
  */
 public class ExpirationControl {
     
