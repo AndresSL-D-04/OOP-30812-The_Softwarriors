@@ -22,6 +22,25 @@ public class CloudSyncManager {
     
     static {
         MongoDBConnection.connect();
+        createJsonFilesIfNotExist();
+    }
+    
+    // METODO PARA CREAR ARCHIVOS JSON SI NO EXISTEN
+    private static void createJsonFilesIfNotExist() {
+        String[] files = {"products.json", "sales.json", "suppliers.json", 
+                          "reservations.json", "credits.json", "combos.json", "backups.json"};
+        
+        for (String fileName : files) {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                try {
+                    Files.write(Paths.get(fileName), "[]".getBytes());
+                    System.out.println("Archivo creado: " + fileName);
+                } catch (IOException e) {
+                    System.out.println("Error creando " + fileName + ": " + e.getMessage());
+                }
+            }
+        }
     }
     
     // ==================== PRODUCTOS ====================
@@ -35,7 +54,7 @@ public class CloudSyncManager {
             }
             
             MongoCollection<Document> collection = MongoDBConnection.getCollection("products");
-            collection.deleteMany(new Document()); // Limpiar coleccion
+            collection.deleteMany(new Document());
             
             for (Product p : products) {
                 Document doc = new Document("id", p.getId())
@@ -61,28 +80,19 @@ public class CloudSyncManager {
             List<Product> products = new ArrayList<>();
             
             for (Document doc : collection.find()) {
-                // Verificar que los campos existen
                 Integer id = doc.getInteger("id");
-                String name = doc.getString("name");
-                Double wholesalePrice = doc.getDouble("wholesalePrice");
-                Double retailPrice = doc.getDouble("retailPrice");
-                Integer stock = doc.getInteger("stock");
-                Integer minStock = doc.getInteger("minStock");
-                String expiryDate = doc.getString("expiryDate");
-                
                 if (id == null) {
-                    System.out.println("Documento sin id, saltando...");
                     continue;
                 }
                 
                 Product p = new Product(
                         id,
-                        name != null ? name : "Sin nombre",
-                        wholesalePrice != null ? wholesalePrice : 0.0,
-                        retailPrice != null ? retailPrice : 0.0,
-                        stock != null ? stock : 0,
-                        minStock != null ? minStock : 0,
-                        expiryDate != null ? expiryDate : "2026-12-31"
+                        doc.getString("name") != null ? doc.getString("name") : "Sin nombre",
+                        doc.getDouble("wholesalePrice") != null ? doc.getDouble("wholesalePrice") : 0.0,
+                        doc.getDouble("retailPrice") != null ? doc.getDouble("retailPrice") : 0.0,
+                        doc.getInteger("stock") != null ? doc.getInteger("stock") : 0,
+                        doc.getInteger("minStock") != null ? doc.getInteger("minStock") : 0,
+                        doc.getString("expiryDate") != null ? doc.getString("expiryDate") : "2026-12-31"
                 );
                 products.add(p);
             }
@@ -92,11 +102,9 @@ public class CloudSyncManager {
                 return;
             }
             
-            // Guardar en archivo local
             String json = gson.toJson(products);
             Files.write(Paths.get("products.json"), json.getBytes());
             
-            // Actualizar ProductManagement
             for (Product p : products) {
                 Product existing = ProductManagement.findById(p.getId());
                 if (existing != null) {
@@ -118,14 +126,14 @@ public class CloudSyncManager {
         }
     }
     
- 
+    // ==================== VENTAS ====================
     
     public static void uploadSales() {
         try {
             File file = new File("sales.json");
             if (!file.exists()) {
-                System.out.println("sales.json no encontrado");
-                return;
+                Files.write(Paths.get("sales.json"), "[]".getBytes());
+                System.out.println("sales.json creado automaticamente");
             }
             
             String content = new String(Files.readAllBytes(Paths.get("sales.json")));
@@ -150,6 +158,7 @@ public class CloudSyncManager {
             
             if (doc == null || !doc.containsKey("data")) {
                 System.out.println("No hay ventas en la nube");
+                Files.write(Paths.get("sales.json"), "[]".getBytes());
                 return;
             }
             
@@ -161,13 +170,14 @@ public class CloudSyncManager {
         }
     }
     
+    // ==================== PROVEEDORES ====================
     
     public static void uploadSuppliers() {
         try {
             File file = new File("suppliers.json");
             if (!file.exists()) {
-                System.out.println("suppliers.json no encontrado");
-                return;
+                Files.write(Paths.get("suppliers.json"), "[]".getBytes());
+                System.out.println("suppliers.json creado automaticamente");
             }
             
             String content = new String(Files.readAllBytes(Paths.get("suppliers.json")));
@@ -192,6 +202,7 @@ public class CloudSyncManager {
             
             if (doc == null || !doc.containsKey("data")) {
                 System.out.println("No hay proveedores en la nube");
+                Files.write(Paths.get("suppliers.json"), "[]".getBytes());
                 return;
             }
             
@@ -203,13 +214,14 @@ public class CloudSyncManager {
         }
     }
     
+    // ==================== RESERVAS ====================
     
     public static void uploadReservations() {
         try {
             File file = new File("reservations.json");
             if (!file.exists()) {
-                System.out.println("reservations.json no encontrado");
-                return;
+                Files.write(Paths.get("reservations.json"), "[]".getBytes());
+                System.out.println("reservations.json creado automaticamente");
             }
             
             String content = new String(Files.readAllBytes(Paths.get("reservations.json")));
@@ -234,6 +246,7 @@ public class CloudSyncManager {
             
             if (doc == null || !doc.containsKey("data")) {
                 System.out.println("No hay reservas en la nube");
+                Files.write(Paths.get("reservations.json"), "[]".getBytes());
                 return;
             }
             
@@ -245,14 +258,14 @@ public class CloudSyncManager {
         }
     }
     
-
+    // ==================== CREDITOS ====================
     
     public static void uploadCredits() {
         try {
             File file = new File("credits.json");
             if (!file.exists()) {
-                System.out.println("credits.json no encontrado");
-                return;
+                Files.write(Paths.get("credits.json"), "[]".getBytes());
+                System.out.println("credits.json creado automaticamente");
             }
             
             String content = new String(Files.readAllBytes(Paths.get("credits.json")));
@@ -277,6 +290,7 @@ public class CloudSyncManager {
             
             if (doc == null || !doc.containsKey("data")) {
                 System.out.println("No hay creditos en la nube");
+                Files.write(Paths.get("credits.json"), "[]".getBytes());
                 return;
             }
             
@@ -288,13 +302,14 @@ public class CloudSyncManager {
         }
     }
     
+    // ==================== COMBOS ====================
     
     public static void uploadCombos() {
         try {
             File file = new File("combos.json");
             if (!file.exists()) {
-                System.out.println("combos.json no encontrado");
-                return;
+                Files.write(Paths.get("combos.json"), "[]".getBytes());
+                System.out.println("combos.json creado automaticamente");
             }
             
             String content = new String(Files.readAllBytes(Paths.get("combos.json")));
@@ -319,6 +334,7 @@ public class CloudSyncManager {
             
             if (doc == null || !doc.containsKey("data")) {
                 System.out.println("No hay combos en la nube");
+                Files.write(Paths.get("combos.json"), "[]".getBytes());
                 return;
             }
             
@@ -330,6 +346,7 @@ public class CloudSyncManager {
         }
     }
     
+    // ==================== SUBIR Y DESCARGAR TODO ====================
     
     public static void uploadAll() {
         System.out.println("=== SUBIENDO TODOS LOS DATOS A LA NUBE ===");
