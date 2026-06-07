@@ -14,7 +14,7 @@ import org.bson.Document;
 public class MongoDBConnection {
     
     private static final String CONNECTION_STRING = "mongodb+srv://Joel:Joel@cluster0.aex8od4.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-    private static final String DATABASE_NAME = "safestore";
+    private static final String DATABASE_NAME = "safeStoreDB";
     private static MongoClient mongoClient = null;
     private static MongoDatabase database = null;
     

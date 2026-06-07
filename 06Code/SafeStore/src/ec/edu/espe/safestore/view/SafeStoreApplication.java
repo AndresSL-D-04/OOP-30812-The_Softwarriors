@@ -1,10 +1,10 @@
-
+package ec.edu.espe.safestore.view;
 /**
  *
  * @author Adrian Vizcaino, The Softwarriors, @ESPE
  */
 
-import model.*;
+import ec.edu.espe.safestore.model.*;
 import java.util.Scanner;
 public class SafeStoreApplication {
     private static Scanner scanner = new Scanner(System.in);

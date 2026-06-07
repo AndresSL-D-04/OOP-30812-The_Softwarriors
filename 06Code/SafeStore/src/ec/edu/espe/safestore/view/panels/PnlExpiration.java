@@ -1,18 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espe.safestore.view.panels;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-/**
- *
- * @author ronal, The Softwarriors, @ESPE
- */
-public class PnlExpiration {
+
+public class PnlExpiration extends JPanel {
+    
     private JTable productTable;
     private DefaultTableModel tableModel;
     private JTextArea outputArea;
@@ -205,4 +200,3 @@ public class PnlExpiration {
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 }
-

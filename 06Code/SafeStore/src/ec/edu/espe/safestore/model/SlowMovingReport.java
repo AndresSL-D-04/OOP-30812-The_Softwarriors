@@ -5,7 +5,7 @@ import java.util.Scanner;
  *
  * @author Alexander Tipantiza, The Softwarriors, @ESPE
  */
-
+import java.util.Scanner;
 
 public class SlowMovingReport {
     

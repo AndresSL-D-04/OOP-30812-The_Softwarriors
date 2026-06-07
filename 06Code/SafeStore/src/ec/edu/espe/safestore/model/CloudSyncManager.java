@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import model.ProductManagement.Product;
+import ec.edu.espe.safestore.model.ProductManagement.Product;
 import org.bson.Document;
 import java.io.*;
 import java.nio.file.Files;

@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ec.edu.espe.safestore.view.panels;
-import model.ProductManagement;
-import model.ProductManagement.Product;
+import ec.edu.espe.safestore.model.ProductManagement;
+import ec.edu.espe.safestore.model.ProductManagement.Product;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -257,5 +257,4 @@ public class PnlProduct extends JPanel {
         button.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
-}
 }
