@@ -1,4 +1,4 @@
-package model;
+package ec.edu.espe.safestore.model;
 
 import java.util.Scanner;
 import java.io.*;
@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author Joel Sanchez, The Softwarriors, @ESPE
  */
 
 public class BackupSystem {

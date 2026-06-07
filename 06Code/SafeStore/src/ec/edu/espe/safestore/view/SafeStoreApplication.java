@@ -1,6 +1,17 @@
-package view;
+package ec.edu.espe.safestore.view;
 
-import model.*;
+import ec.edu.espe.safestore.model.ProductMultiCode;
+import ec.edu.espe.safestore.model.WeightSales;
+import ec.edu.espe.safestore.model.CreditManagement;
+import ec.edu.espe.safestore.model.ThermalPrinting;
+import ec.edu.espe.safestore.model.ComboSystem;
+import ec.edu.espe.safestore.model.ExpirationControl;
+import ec.edu.espe.safestore.model.CashControl;
+import ec.edu.espe.safestore.model.HolidayRoundMode;
+import ec.edu.espe.safestore.model.UIAdaptive;
+import ec.edu.espe.safestore.model.BackupSystem;
+import ec.edu.espe.safestore.model.SlowMovingReport;
+import ec.edu.espe.safestore.model.StockMinAlert;
 import java.util.Scanner;
 /**
  *

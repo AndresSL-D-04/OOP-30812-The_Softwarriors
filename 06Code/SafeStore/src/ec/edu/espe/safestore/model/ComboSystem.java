@@ -1,4 +1,4 @@
-package model;
+package ec.edu.espe.safestore.model;
 
 import java.util.Scanner;
 /**
