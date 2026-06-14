@@ -1,122 +1,98 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espe.safestore.controller;
 
 /**
- *
  * @author Joel Sanchez, The Softwarriors, @ESPE
+ *
  */
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
 import ec.edu.espe.safestore.model.Product;
-import java.io.*;
-import java.lang.reflect.Type;
+import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductController {
-    
-    private static final String FILE_NAME = "products.json";
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private List<Product> products;
-    
+
+    private MongoDBConnection dbConnection;
+    private MongoCollection<Document> collection;
+
     public ProductController() {
-        products = new ArrayList<>();
-        loadFromFile();
+        dbConnection = new MongoDBConnection();
+        dbConnection.connect();
+        collection = dbConnection.getCollection("products");
     }
-    
-    private void loadFromFile() {
-        try {
-            File file = new File(FILE_NAME);
-            if (file.exists()) {
-                String content = new String(java.nio.file.Files.readAllBytes(file.toPath()));
-                Type type = new TypeToken<ArrayList<Product>>(){}.getType();
-                List<Product> loaded = gson.fromJson(content, type);
-                if (loaded != null) {
-                    products = loaded;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error loading products: " + e.getMessage());
-        }
+
+    private Document productToDoc(Product p) {
+        return new Document("id", p.getId())
+                .append("name", p.getName())
+                .append("wholesalePrice", p.getWholesalePrice())
+                .append("retailPrice", p.getRetailPrice())
+                .append("stock", p.getStock())
+                .append("minStock", p.getMinStock())
+                .append("expiryDate", p.getExpiryDate());
     }
-    
-    private void saveToFile() {
-        try {
-            String json = gson.toJson(products);
-            java.nio.file.Files.write(java.nio.file.Paths.get(FILE_NAME), json.getBytes());
-        } catch (Exception e) {
-            System.out.println("Error saving products: " + e.getMessage());
-        }
+
+    private Product docToProduct(Document doc) {
+        return new Product(
+            doc.getInteger("id"),
+            doc.getString("name") != null ? doc.getString("name") : "",
+            doc.getDouble("wholesalePrice") != null ? doc.getDouble("wholesalePrice") : 0.0,
+            doc.getDouble("retailPrice") != null ? doc.getDouble("retailPrice") : 0.0,
+            doc.getInteger("stock") != null ? doc.getInteger("stock") : 0,
+            doc.getInteger("minStock") != null ? doc.getInteger("minStock") : 0,
+            doc.getString("expiryDate") != null ? doc.getString("expiryDate") : ""
+        );
     }
-    
+
     public boolean addProduct(Product product) {
-        if (findById(product.getId()) != null) {
-            return false;
-        }
-        products.add(product);
-        saveToFile();
+        if (findById(product.getId()) != null) return false;
+        collection.insertOne(productToDoc(product));
         return true;
     }
-    
+
     public boolean updateProduct(Product product) {
-        Product existing = findById(product.getId());
-        if (existing == null) {
-            return false;
-        }
-        existing.setName(product.getName());
-        existing.setWholesalePrice(product.getWholesalePrice());
-        existing.setRetailPrice(product.getRetailPrice());
-        existing.setStock(product.getStock());
-        existing.setMinStock(product.getMinStock());
-        existing.setExpiryDate(product.getExpiryDate());
-        saveToFile();
+        if (findById(product.getId()) == null) return false;
+        collection.replaceOne(
+            Filters.eq("id", product.getId()),
+            productToDoc(product),
+            new ReplaceOptions().upsert(false)
+        );
         return true;
     }
-    
+
     public boolean deleteProduct(int id) {
-        Product existing = findById(id);
-        if (existing == null) {
-            return false;
-        }
-        products.remove(existing);
-        saveToFile();
+        if (findById(id) == null) return false;
+        collection.deleteOne(Filters.eq("id", id));
         return true;
     }
-    
+
     public Product findById(int id) {
-        for (Product p : products) {
-            if (p.getId() == id) {
-                return p;
-            }
-        }
-        return null;
+        Document doc = collection.find(Filters.eq("id", id)).first();
+        return doc != null ? docToProduct(doc) : null;
     }
-    
+
     public List<Product> getAllProducts() {
-        return new ArrayList<>(products);
+        List<Product> products = new ArrayList<>();
+        for (Document doc : collection.find()) {
+            products.add(docToProduct(doc));
+        }
+        return products;
     }
-    
+
     public List<Product> getLowStockProducts() {
         List<Product> lowStock = new ArrayList<>();
-        for (Product p : products) {
-            if (p.getStock() <= p.getMinStock()) {
-                lowStock.add(p);
-            }
+        for (Product p : getAllProducts()) {
+            if (p.getStock() <= p.getMinStock()) lowStock.add(p);
         }
         return lowStock;
     }
-    
+
     public boolean updateStock(int id, int newStock) {
         Product p = findById(id);
-        if (p == null) {
-            return false;
-        }
+        if (p == null) return false;
         p.setStock(newStock);
-        saveToFile();
-        return true;
+        return updateProduct(p);
     }
 }

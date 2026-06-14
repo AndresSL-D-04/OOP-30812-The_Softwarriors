@@ -1,140 +1,123 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ec.edu.espe.safestore.controller;
 
 /**
- *
  * @author Joel Sanchez, The Softwarriors, @ESPE
+ *
  */
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
 import ec.edu.espe.safestore.model.Combo;
 import ec.edu.espe.safestore.model.ComboItem;
-import java.io.*;
-import java.lang.reflect.Type;
+import org.bson.Document;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ComboController {
-    
-    private static final String FILE_NAME = "combos.json";
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private List<Combo> combos;
+
+    private MongoDBConnection dbConnection;
+    private MongoCollection<Document> collection;
     private ProductController productController;
-    
+
     public ComboController() {
-        combos = new ArrayList<>();
+        dbConnection = new MongoDBConnection();
+        dbConnection.connect();
+        collection = dbConnection.getCollection("combos");
         productController = new ProductController();
-        loadFromFile();
     }
-    
-    private void loadFromFile() {
-        try {
-            File file = new File(FILE_NAME);
-            if (file.exists()) {
-                String content = new String(java.nio.file.Files.readAllBytes(file.toPath()));
-                Type type = new TypeToken<ArrayList<Combo>>(){}.getType();
-                List<Combo> loaded = gson.fromJson(content, type);
-                if (loaded != null) {
-                    combos = loaded;
-                }
+
+    private Document comboToDoc(Combo c) {
+        List<Document> itemDocs = new ArrayList<>();
+        for (ComboItem item : c.getItems()) {
+            itemDocs.add(new Document("productId", item.getProductId())
+                    .append("productName", item.getProductName())
+                    .append("productPrice", item.getProductPrice())
+                    .append("quantity", item.getQuantity()));
+        }
+        return new Document("id", c.getId())
+                .append("name", c.getName())
+                .append("description", c.getDescription())
+                .append("comboPrice", c.getComboPrice())
+                .append("isActive", c.isActive())
+                .append("items", itemDocs);
+    }
+
+    private Combo docToCombo(Document doc) {
+        Combo c = new Combo(
+            doc.getInteger("id"),
+            doc.getString("name"),
+            doc.getString("description"),
+            doc.getDouble("comboPrice") != null ? doc.getDouble("comboPrice") : 0.0
+        );
+        c.setActive(Boolean.TRUE.equals(doc.getBoolean("isActive")));
+        List<Document> itemDocs = doc.getList("items", Document.class);
+        if (itemDocs != null) {
+            for (Document itemDoc : itemDocs) {
+                c.addItem(new ComboItem(
+                    itemDoc.getInteger("productId"),
+                    itemDoc.getString("productName"),
+                    itemDoc.getDouble("productPrice") != null ? itemDoc.getDouble("productPrice") : 0.0,
+                    itemDoc.getInteger("quantity") != null ? itemDoc.getInteger("quantity") : 0
+                ));
             }
-        } catch (Exception e) {
-            System.out.println("Error loading combos: " + e.getMessage());
         }
+        return c;
     }
-    
-    private void saveToFile() {
-        try {
-            String json = gson.toJson(combos);
-            java.nio.file.Files.write(java.nio.file.Paths.get(FILE_NAME), json.getBytes());
-        } catch (Exception e) {
-            System.out.println("Error saving combos: " + e.getMessage());
-        }
-    }
-    
+
     public boolean addCombo(Combo combo) {
-        if (findById(combo.getId()) != null) {
-            return false;
-        }
-        combos.add(combo);
-        saveToFile();
+        if (findById(combo.getId()) != null) return false;
+        collection.insertOne(comboToDoc(combo));
         return true;
     }
-    
+
     public boolean updateCombo(Combo combo) {
-        Combo existing = findById(combo.getId());
-        if (existing == null) {
-            return false;
-        }
-        existing.setName(combo.getName());
-        existing.setDescription(combo.getDescription());
-        existing.setComboPrice(combo.getComboPrice());
-        saveToFile();
+        if (findById(combo.getId()) == null) return false;
+        collection.replaceOne(
+            Filters.eq("id", combo.getId()),
+            comboToDoc(combo),
+            new ReplaceOptions().upsert(false)
+        );
         return true;
     }
-    
+
     public boolean deleteCombo(int id) {
-        Combo existing = findById(id);
-        if (existing == null) {
-            return false;
-        }
-        combos.remove(existing);
-        saveToFile();
+        if (findById(id) == null) return false;
+        collection.deleteOne(Filters.eq("id", id));
         return true;
     }
-    
+
     public Combo findById(int id) {
-        for (Combo c : combos) {
-            if (c.getId() == id) {
-                return c;
-            }
-               }
-        return null;
+        Document doc = collection.find(Filters.eq("id", id)).first();
+        return doc != null ? docToCombo(doc) : null;
     }
-    
+
     public List<Combo> getAllCombos() {
-        return new ArrayList<>(combos);
+        List<Combo> combos = new ArrayList<>();
+        for (Document doc : collection.find()) combos.add(docToCombo(doc));
+        return combos;
     }
-    
+
     public boolean addProductToCombo(int comboId, int productId, int quantity) {
         Combo combo = findById(comboId);
-        if (combo == null) {
-            return false;
-        }
-        
+        if (combo == null) return false;
         ec.edu.espe.safestore.model.Product product = productController.findById(productId);
-        if (product == null) {
-            return false;
-        }
-        
-        ComboItem item = new ComboItem(productId, product.getName(), product.getRetailPrice(), quantity);
-        combo.addItem(item);
-        saveToFile();
-        return true;
+        if (product == null) return false;
+        combo.addItem(new ComboItem(productId, product.getName(), product.getRetailPrice(), quantity));
+        return updateCombo(combo);
     }
-    
+
     public boolean activateCombo(int id) {
         Combo combo = findById(id);
-        if (combo == null) {
-            return false;
-        }
+        if (combo == null) return false;
         combo.setActive(true);
-        saveToFile();
-        return true;
+        return updateCombo(combo);
     }
-    
+
     public boolean deactivateCombo(int id) {
         Combo combo = findById(id);
-        if (combo == null) {
-            return false;
-        }
+        if (combo == null) return false;
         combo.setActive(false);
-        saveToFile();
-        return true;
+        return updateCombo(combo);
     }
 }
