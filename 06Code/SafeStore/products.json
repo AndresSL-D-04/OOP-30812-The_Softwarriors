@@ -1,11 +1,182 @@
 [
   {
     "id": 1,
-    "name": "Leche",
-    "wholesalePrice": 2.5,
+    "name": "Plato hondo de carton 20cm",
+    "wholesalePrice": 0.2,
+    "retailPrice": 0.35,
+    "stock": 500,
+    "minStock": 100,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 2,
+    "name": "Plato extendido de carton 25cm",
+    "wholesalePrice": 0.25,
+    "retailPrice": 0.45,
+    "stock": 400,
+    "minStock": 80,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 3,
+    "name": "Vaso plastico 9oz",
+    "wholesalePrice": 0.12,
+    "retailPrice": 0.2,
+    "stock": 800,
+    "minStock": 150,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 4,
+    "name": "Vaso plastico 12oz",
+    "wholesalePrice": 0.15,
+    "retailPrice": 0.25,
+    "stock": 600,
+    "minStock": 120,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 5,
+    "name": "Vaso plastico 16oz",
+    "wholesalePrice": 0.2,
+    "retailPrice": 0.35,
+    "stock": 400,
+    "minStock": 80,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 6,
+    "name": "Tenedor plastico",
+    "wholesalePrice": 0.04,
+    "retailPrice": 0.08,
+    "stock": 2000,
+    "minStock": 400,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 7,
+    "name": "Cuchara plastica",
+    "wholesalePrice": 0.04,
+    "retailPrice": 0.08,
+    "stock": 2000,
+    "minStock": 400,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 8,
+    "name": "Cuchillo plastico",
+    "wholesalePrice": 0.04,
+    "retailPrice": 0.08,
+    "stock": 1800,
+    "minStock": 350,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 9,
+    "name": "Servilleta de papel",
+    "wholesalePrice": 0.02,
+    "retailPrice": 0.05,
+    "stock": 5000,
+    "minStock": 1000,
+    "expiryDate": "2027-12-31"
+  },
+  {
+    "id": 10,
+    "name": "Mantel plastico",
+    "wholesalePrice": 1.0,
+    "retailPrice": 1.8,
+    "stock": 150,
+    "minStock": 30,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 11,
+    "name": "Bandeja rectangular",
+    "wholesalePrice": 0.5,
+    "retailPrice": 0.9,
+    "stock": 250,
+    "minStock": 50,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 12,
+    "name": "Bandeja cuadrada",
+    "wholesalePrice": 0.45,
+    "retailPrice": 0.8,
+    "stock": 300,
+    "minStock": 60,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 13,
+    "name": "Funda plastica transparente",
+    "wholesalePrice": 0.08,
+    "retailPrice": 0.15,
+    "stock": 800,
+    "minStock": 150,
+    "expiryDate": "2027-06-30"
+  },
+  {
+    "id": 14,
+    "name": "Caja de carton para llevar",
+    "wholesalePrice": 0.35,
+    "retailPrice": 0.6,
+    "stock": 500,
+    "minStock": 100,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 15,
+    "name": "Vaso termico",
+    "wholesalePrice": 1.2,
     "retailPrice": 2.0,
     "stock": 100,
-    "minStock": 10,
-    "expiryDate": "2027-02-28"
+    "minStock": 20,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 16,
+    "name": "Cubiertos de bambu",
+    "wholesalePrice": 0.12,
+    "retailPrice": 0.25,
+    "stock": 500,
+    "minStock": 100,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 17,
+    "name": "Pajilla de metal reutilizable",
+    "wholesalePrice": 0.7,
+    "retailPrice": 1.2,
+    "stock": 200,
+    "minStock": 40,
+    "expiryDate": "2027-12-31"
+  },
+  {
+    "id": 18,
+    "name": "Plato de plastico duro",
+    "wholesalePrice": 0.3,
+    "retailPrice": 0.55,
+    "stock": 350,
+    "minStock": 70,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 19,
+    "name": "Tarrina pequena 250ml",
+    "wholesalePrice": 0.2,
+    "retailPrice": 0.35,
+    "stock": 300,
+    "minStock": 60,
+    "expiryDate": "2026-12-31"
+  },
+  {
+    "id": 20,
+    "name": "Tarrina mediana 500ml",
+    "wholesalePrice": 0.25,
+    "retailPrice": 0.45,
+    "stock": 250,
+    "minStock": 50,
+    "expiryDate": "2026-12-31"
   }
 ]

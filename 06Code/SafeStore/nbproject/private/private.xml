@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/panels/PnlStock.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/panels/PnlSupplier.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/panels/PnlUI.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/SafeStoreApplication.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/SafeStoreGUI.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/model/ProductManagement.java</file>
-            <file>file:/C:/Users/adria/OneDrive/Escritorio/ESPE/30812-POO/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/model/CloudSyncManager.java</file>
+            <file>file:/D:/Nueva%20carpeta/Grupo/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/model/BackupSystem.java</file>
+            <file>file:/D:/Nueva%20carpeta/Grupo/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/SafeStoreGUI.java</file>
+            <file>file:/D:/Nueva%20carpeta/Grupo/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/view/SafeStoreApplication.java</file>
+            <file>file:/D:/Nueva%20carpeta/Grupo/OOP-30812-The_Softwarriors/06Code/SafeStore/src/ec/edu/espe/safestore/model/MongoDBConnection.java</file>
         </group>
     </open-files>
 </project-private>

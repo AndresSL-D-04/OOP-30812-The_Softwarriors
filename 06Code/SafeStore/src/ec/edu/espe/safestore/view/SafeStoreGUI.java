@@ -1,4 +1,4 @@
-package ec.edu.espe.safestore.view;
+SafeStoreAplicationpackage ec.edu.espe.safestore.view;
 import ec.edu.espe.safestore.view.panels.*;
 import javax.swing.*;
 import java.awt.*;
