@@ -1,17 +1,17 @@
-
-/**
- *
- * @author Joel Sanchez, The Softwarriors, @ESPE
- */
 package ec.edu.espe.safestore.model;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import ec.edu.espe.safestore.controller.MongoDBConnection;
+import ec.edu.espe.safestore.utils.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ *
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ */
 
 public class Backup {
     private int backupId;
@@ -26,16 +26,7 @@ public class Backup {
         if (dbConnection == null) {
             dbConnection = new MongoDBConnection();
             dbConnection.connect();
-            collection = dbConnection.getCollection("backups");
-            
-            if (collection.countDocuments() == 0) {
-                Document sample = new Document("backupId", 1)
-                        .append("fileName", "backup_2024_01_01.zip")
-                        .append("status", "completed")
-                        .append("date", LocalDate.now().toString());
-                collection.insertOne(sample);
-                System.out.println("Coleccion backups creada con datos de ejemplo");
-            }
+            collection = dbConnection.getCollection(Constants.COLLECTION_BACKUPS);
         }
     }
     

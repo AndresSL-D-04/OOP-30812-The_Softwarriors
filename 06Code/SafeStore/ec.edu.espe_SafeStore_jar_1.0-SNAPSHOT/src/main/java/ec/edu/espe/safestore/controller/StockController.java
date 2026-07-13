@@ -1,34 +1,29 @@
 package ec.edu.espe.safestore.controller;
 
 import ec.edu.espe.safestore.model.Product;
+import ec.edu.espe.safestore.utils.*;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ */
+
 public class StockController {
     
-    private ProductController productController;
-    private MongoDBConnection dbConnection;
-    private MongoCollection<Document> logCollection;
+    private final ProductController productController;
+    private final MongoDBConnection dbConnection;
+    private final MongoCollection<Document> logCollection;
     
     public StockController() {
-        productController = new ProductController();
-        dbConnection = new MongoDBConnection();
-        dbConnection.connect();
-        logCollection = dbConnection.getCollection("inventory_logs");
-        if (logCollection.countDocuments() == 0) {
-            Document sample = new Document("productId", 1)
-                    .append("productName", "Sample Product")
-                    .append("previousStock", 10)
-                    .append("newStock", 15)
-                    .append("quantityChanged", 5)
-                    .append("movementType", "PURCHASE")
-                    .append("reason", "Initial stock")
-                    .append("timestamp", LocalDateTime.now().toString());
-            logCollection.insertOne(sample);
-        }
+        this.productController = new ProductController();
+        this.dbConnection = new MongoDBConnection();
+        this.dbConnection.connect();
+        this.logCollection = dbConnection.getCollection(Constants.COLLECTION_INVENTORY_LOGS);
     }
     
     public List<Product> getLowStockProducts() {
@@ -47,11 +42,9 @@ public class StockController {
     
     public boolean updateStock(int productId, int newStock) {
         Product p = productController.findById(productId);
-        if (p == null) return false;
-        
+        if (p == null || !ValidationUtil.isValidStock(newStock)) return false;
         int oldStock = p.getStock();
         boolean result = productController.updateStock(productId, newStock);
-        
         if (result) {
             Document log = new Document("productId", productId)
                     .append("productName", p.getName())
@@ -59,31 +52,30 @@ public class StockController {
                     .append("newStock", newStock)
                     .append("quantityChanged", newStock - oldStock)
                     .append("movementType", "ADJUSTMENT")
-                    .append("reason", "Manual stock update")
+                    .append("reason", "Actualización manual de stock")
                     .append("timestamp", LocalDateTime.now().toString());
             logCollection.insertOne(log);
+            System.out.println("Stock actualizado para: " + p.getName());
         }
         return result;
     }
     
     public boolean updateMinStock(int productId, int newMinStock) {
         Product p = productController.findById(productId);
-        if (p == null) return false;
-        
+        if (p == null || !ValidationUtil.isValidMinStock(newMinStock)) return false;
         p.setMinStock(newMinStock);
-        productController.updateProduct(p);
-        return true;
+        return productController.updateProduct(p);
     }
     
     public int calculateSuggestedOrder(Product product) {
         int suggested = product.getMinStock() * 2 - product.getStock();
-        return suggested < 0 ? product.getMinStock() : suggested;
+        return Math.max(suggested, product.getMinStock());
     }
     
     public List<String> generateOrderList() {
         List<String> orderList = new ArrayList<>();
         for (Product p : getLowStockProducts()) {
-            orderList.add(p.getName() + " - Order " + calculateSuggestedOrder(p) + " units");
+            orderList.add(p.getName() + " - Pedir " + calculateSuggestedOrder(p) + " unidades");
         }
         return orderList;
     }
