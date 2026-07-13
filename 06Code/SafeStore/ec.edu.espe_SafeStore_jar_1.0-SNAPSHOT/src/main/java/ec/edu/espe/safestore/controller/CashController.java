@@ -2,37 +2,25 @@ package ec.edu.espe.safestore.controller;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import ec.edu.espe.safestore.utils.Constants;
+import ec.edu.espe.safestore.utils.MongoDBConnection;
 import org.bson.Document;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CashController {
-    private MongoDBConnection dbConnection;
-    private MongoCollection<Document> collection;
+    
+    private final MongoDBConnection dbConnection;
+    private final MongoCollection<Document> collection;
     private double currentBalance;
     private boolean isOpen;
     private int currentSessionId;
     
     public CashController() {
-        dbConnection = new MongoDBConnection();
-        dbConnection.connect();
-        collection = dbConnection.getCollection("cash_sessions");
-        
-        if (collection.countDocuments() == 0) {
-            Document sample = new Document("sessionId", 1)
-                    .append("openDate", LocalDateTime.now().toString())
-                    .append("closeDate", LocalDateTime.now().plusHours(8).toString())
-                    .append("initialBalance", 500.0)
-                    .append("finalBalance", 1250.0)
-                    .append("expectedBalance", 1250.0)
-                    .append("difference", 0.0)
-                    .append("isOpen", false)
-                    .append("transactions", new ArrayList<Document>());
-            collection.insertOne(sample);
-            System.out.println("Coleccion cash_sessions creada con datos de ejemplo");
-        }
-        
+        this.dbConnection = new MongoDBConnection();
+        this.dbConnection.connect();
+        this.collection = dbConnection.getCollection(Constants.COLLECTION_CASH_SESSIONS);
         loadCurrentSession();
     }
     
@@ -56,13 +44,10 @@ public class CashController {
     }
     
     public boolean openCash(double initialAmount) {
-        if (initialAmount < 0) return false;
-        if (isOpen) return false;
-        
+        if (initialAmount < 0 || isOpen) return false;
         currentBalance = initialAmount;
         isOpen = true;
         currentSessionId = (int) (System.currentTimeMillis() % 10000);
-        
         Document doc = new Document("sessionId", currentSessionId)
                 .append("openDate", LocalDateTime.now().toString())
                 .append("initialBalance", initialAmount)
@@ -70,12 +55,12 @@ public class CashController {
                 .append("isOpen", true)
                 .append("transactions", new ArrayList<Document>());
         collection.insertOne(doc);
+        System.out.println("Caja abierta con $" + initialAmount);
         return true;
     }
     
     public boolean closeCash(double physicalCount) {
         if (!isOpen) return false;
-        
         double difference = physicalCount - currentBalance;
         Document doc = collection.find(Filters.eq("sessionId", currentSessionId)).first();
         if (doc != null) {
@@ -85,9 +70,9 @@ public class CashController {
             doc.put("isOpen", false);
             collection.replaceOne(Filters.eq("sessionId", currentSessionId), doc);
         }
-        
         isOpen = false;
         currentBalance = 0;
+        System.out.println("Caja cerrada. Diferencia: $" + difference);
         return true;
     }
     
@@ -97,17 +82,15 @@ public class CashController {
     
     public boolean addIncome(double amount, String description) {
         if (!isOpen || amount < 0) return false;
-        
         currentBalance += amount;
-        addTransaction(amount, "INCOME", description);
+        addTransaction(amount, Constants.TX_INCOME, description);
         return true;
     }
     
     public boolean addExpense(double amount, String description) {
         if (!isOpen || amount < 0 || amount > currentBalance) return false;
-        
         currentBalance -= amount;
-        addTransaction(amount, "EXPENSE", description);
+        addTransaction(amount, Constants.TX_EXPENSE, description);
         return true;
     }
     
@@ -116,13 +99,11 @@ public class CashController {
         if (doc != null) {
             List<Document> transactions = doc.getList("transactions", Document.class);
             if (transactions == null) transactions = new ArrayList<>();
-            
             Document tx = new Document("amount", amount)
                     .append("type", type)
                     .append("description", description)
                     .append("date", LocalDateTime.now().toString());
             transactions.add(tx);
-            
             doc.put("transactions", transactions);
             doc.put("expectedBalance", currentBalance);
             collection.replaceOne(Filters.eq("sessionId", currentSessionId), doc);

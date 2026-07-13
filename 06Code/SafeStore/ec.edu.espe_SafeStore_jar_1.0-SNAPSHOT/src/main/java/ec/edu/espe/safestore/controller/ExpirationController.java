@@ -1,6 +1,7 @@
 package ec.edu.espe.safestore.controller;
 
 import ec.edu.espe.safestore.model.Product;
+import ec.edu.espe.safestore.utils.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
@@ -12,26 +13,16 @@ import java.util.List;
 
 public class ExpirationController {
     
-    private ProductController productController;
-    private MongoDBConnection dbConnection;
-    private MongoCollection<Document> collection;
+    private final ProductController productController;
+    private final MongoDBConnection dbConnection;
+    private final MongoCollection<Document> collection;
     private int alertDays;
     
     public ExpirationController() {
-        productController = new ProductController();
-        dbConnection = new MongoDBConnection();
-        dbConnection.connect();
-        collection = dbConnection.getCollection("alert_config");
-        
-        if (collection.countDocuments() == 0) {
-            Document sample = new Document("_id", "expiration_days")
-                    .append("value", 30)
-                    .append("description", "Days before expiration to show alert")
-                    .append("updatedAt", LocalDate.now().toString());
-            collection.insertOne(sample);
-            System.out.println("Coleccion alert_config creada con datos de ejemplo");
-        }
-        
+        this.productController = new ProductController();
+        this.dbConnection = new MongoDBConnection();
+        this.dbConnection.connect();
+        this.collection = dbConnection.getCollection(Constants.COLLECTION_ALERT_CONFIG);
         loadAlertDays();
     }
     
@@ -39,13 +30,9 @@ public class ExpirationController {
         Document doc = collection.find(Filters.eq("_id", "expiration_days")).first();
         if (doc != null) {
             Object valueObj = doc.get("value");
-            if (valueObj instanceof Number) {
-                this.alertDays = ((Number) valueObj).intValue();
-            } else {
-                this.alertDays = 30;
-            }
+            this.alertDays = (valueObj instanceof Number) ? ((Number) valueObj).intValue() : Constants.DEFAULT_ALERT_DAYS;
         } else {
-            this.alertDays = 30;
+            this.alertDays = Constants.DEFAULT_ALERT_DAYS;
         }
     }
     
@@ -59,6 +46,7 @@ public class ExpirationController {
     public void setAlertDays(int days) {
         this.alertDays = days;
         saveAlertDays();
+        System.out.println("Días de alerta actualizados a: " + days);
     }
     
     public int getAlertDays() {
@@ -68,7 +56,6 @@ public class ExpirationController {
     public List<Product> getExpiringSoonProducts() {
         List<Product> expiring = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        
         for (Product p : productController.getAllProducts()) {
             if (p.getExpiryDate() != null && !p.getExpiryDate().isEmpty()) {
                 try {
@@ -86,7 +73,6 @@ public class ExpirationController {
     public List<Product> getExpiredProducts() {
         List<Product> expired = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        
         for (Product p : productController.getAllProducts()) {
             if (p.getExpiryDate() != null && !p.getExpiryDate().isEmpty()) {
                 try {
@@ -102,26 +88,24 @@ public class ExpirationController {
     
     public double calculateDiscount(Product product) {
         if (product.getExpiryDate() == null || product.getExpiryDate().isEmpty()) return 0;
-        
         try {
             LocalDate today = LocalDate.now();
             LocalDate expiry = LocalDate.parse(product.getExpiryDate());
             long daysLeft = ChronoUnit.DAYS.between(today, expiry);
-            
-            if (daysLeft <= 7 && daysLeft > 3) return 0.30;
-            else if (daysLeft <= 15 && daysLeft > 7) return 0.20;
-            else if (daysLeft <= 30 && daysLeft > 15) return 0.10;
-            else if (daysLeft <= 0) return 0.50;
+            if (daysLeft <= 7 && daysLeft > 3) return Constants.DISCOUNT_LAST_WEEK;
+            else if (daysLeft <= 15 && daysLeft > 7) return Constants.DISCOUNT_TWO_WEEKS;
+            else if (daysLeft <= 30 && daysLeft > 15) return Constants.DISCOUNT_ONE_MONTH;
+            else if (daysLeft <= 0) return Constants.DISCOUNT_EXPIRED;
         } catch (Exception e) {}
         return 0;
     }
     
     public String getDiscountDescription(Product product) {
         double discount = calculateDiscount(product);
-        if (discount == 0.30) return "30% (Last week)";
-        if (discount == 0.20) return "20% (Two weeks)";
-        if (discount == 0.10) return "10% (One month)";
-        if (discount == 0.50) return "50% (EXPIRED - Do not sell)";
-        return "No discount";
+        if (discount == Constants.DISCOUNT_LAST_WEEK) return "30% (Última semana)";
+        if (discount == Constants.DISCOUNT_TWO_WEEKS) return "20% (Dos semanas)";
+        if (discount == Constants.DISCOUNT_ONE_MONTH) return "10% (Un mes)";
+        if (discount == Constants.DISCOUNT_EXPIRED) return "50% (VENCIDO - No vender)";
+        return "Sin descuento";
     }
 }
