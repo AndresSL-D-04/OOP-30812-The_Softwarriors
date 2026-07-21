@@ -1,63 +1,81 @@
-
 package ec.edu.espe.safestore.controller;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
+import ec.edu.espe.safestore.controller.interfaces.IAuthController;
 import ec.edu.espe.safestore.model.User;
-import ec.edu.espe.safestore.utils.*;
-import org.bson.Document;
-import java.util.ArrayList;
+import ec.edu.espe.safestore.service.interfaces.IAuthService;
+import ec.edu.espe.safestore.utils.DataInitializer;
+import ec.edu.espe.safestore.utils.MongoDBConnection;
 import java.util.List;
 
 /**
- * @author Joel Sanchez, The Softwarriors, @ESPE
  *
+ * @author ronal, The Softwarriors, @ESPE
  */
-public class AuthController {
 
-    private final MongoDBConnection dbConnection;
-    private final MongoCollection<Document> collection;
+public class AuthController implements IAuthController {
+    
+    private final IAuthService authService;
     private final DataInitializer dataInitializer;
-
-    public AuthController() {
-        this.dbConnection = new MongoDBConnection();
-        this.dbConnection.connect();
-        this.collection = dbConnection.getCollection(Constants.COLLECTION_USERS);
+    
+    public AuthController(IAuthService authService, MongoDBConnection dbConnection) {
+        this.authService = authService;
         this.dataInitializer = new DataInitializer(dbConnection);
         this.dataInitializer.initializeDefaultUsers();
     }
-
+    
+    @Override
     public boolean authenticate(String username, String password, String role) {
-        if (!ValidationUtil.isValidUsername(username) || !ValidationUtil.isValidPassword(password)) {
-            return false;
-        }
-        Document doc = collection.find(
-            Filters.and(
-                Filters.regex("username", "(?i)^" + username + "$"),
-                Filters.eq("password", password),
-                Filters.eq("role", role)
-            )
-        ).first();
-        return doc != null;
+        return authService.authenticate(username, password, role);
     }
-
+    
+    @Override
     public boolean addUser(String username, String password, String role) {
-        if (!ValidationUtil.isValidUsername(username) || !ValidationUtil.isValidPassword(password)) {
+        try {
+            return authService.registerUser(username, password, password, null, role);
+        } catch (IllegalArgumentException e) {
             return false;
         }
-        Document existing = collection.find(
-            Filters.regex("username", "(?i)^" + username + "$")
-        ).first();
-        if (existing != null) return false;
-        collection.insertOne(DocumentConverter.userToDoc(new User(username, password, role)));
-        return true;
     }
-
+    
+    @Override
+    public boolean registerUser(String username, String password, String confirmPassword, 
+                                String email, String role) {
+        return authService.registerUser(username, password, confirmPassword, email, role);
+    }
+    
+    @Override
+    public boolean generateResetToken(String usernameOrEmail) {
+        return authService.generateResetToken(usernameOrEmail);
+    }
+    
+    @Override
+    public boolean isValidResetToken(String token) {
+        return authService.isValidResetToken(token);
+    }
+    
+    @Override
+    public boolean resetPassword(String token, String newPassword, String confirmPassword) {
+        return authService.resetPassword(token, newPassword, confirmPassword);
+    }
+    
+    @Override
+    public boolean changePassword(String username, String oldPassword, 
+                                  String newPassword, String confirmPassword) {
+        return authService.changePassword(username, oldPassword, newPassword, confirmPassword);
+    }
+    
+    @Override
+    public User findByUsername(String username) {
+        return authService.findByUsername(username);
+    }
+    
+    @Override
+    public User findByEmail(String email) {
+        return authService.findByEmail(email);
+    }
+    
+    @Override
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-        for (Document doc : collection.find()) {
-            users.add(DocumentConverter.docToUser(doc));
-        }
-        return users;
+        return null;
     }
 }
