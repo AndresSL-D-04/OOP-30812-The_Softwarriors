@@ -10,9 +10,8 @@ import java.util.List;
 
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author Adrian Vizcaino, The-Softwarriors, @ESPE
  */
-
 public class SupplierController {
     
     private final MongoDBConnection dbConnection;

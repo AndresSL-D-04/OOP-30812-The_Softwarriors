@@ -1,5 +1,4 @@
 package ec.edu.espe.safestore.controller;
-
 import ec.edu.espe.safestore.model.Product;
 import ec.edu.espe.safestore.utils.*;
 import com.mongodb.client.MongoCollection;
@@ -10,15 +9,13 @@ import java.util.List;
 
 /**
  *
- * @author Alexander Tipantiza, The Softwarriors, @ESPE
+ * @author Adrian Vizcaino, The-Softwarriors, @ESPE
  */
-
 public class StockController {
-    
     private final ProductController productController;
     private final MongoDBConnection dbConnection;
     private final MongoCollection<Document> logCollection;
-    
+  
     public StockController() {
         this.productController = new ProductController();
         this.dbConnection = new MongoDBConnection();

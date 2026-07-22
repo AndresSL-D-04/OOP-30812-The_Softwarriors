@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ *
+ * @author Adrian Vizcaino, The-Softwarriors, @ESPE
+ */
+
 public class CreditController {
 
     private final MongoDBConnection dbConnection;
