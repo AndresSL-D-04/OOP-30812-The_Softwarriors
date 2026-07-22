@@ -1,9 +1,10 @@
 package ec.edu.espe.safestore.view;
-
+import ec.edu.espe.safestore.utils.LoggerUtil;
+import java.util.logging.Logger;
 import ec.edu.espe.safestore.view.panels.*;
 
 public class FrmMain extends javax.swing.JFrame {
-
+    private static final Logger logger = LoggerUtil.getLogger();
     private String userRole;
     private String username;
     private java.awt.CardLayout cardLayout;
@@ -217,6 +218,12 @@ public class FrmMain extends javax.swing.JFrame {
     }// </editor-fold>
 
     public static void main(String args[]) {
+            System.out.println("ENTRO AL MAIN");
+
+    logger.info("Iniciando SafeStore");
+
+    System.out.println("DESPUES DEL LOGGER");
+        logger.info("Iniciando SafeStore");
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info :
                     javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -229,6 +236,7 @@ public class FrmMain extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(FrmMain.class.getName())
                     .log(java.util.logging.Level.SEVERE, null, ex);
         }
+        logger.info("Mostrando formulario de login");
 
         java.awt.EventQueue.invokeLater(() -> new FrmLogin().setVisible(true));
     }

@@ -1,0 +1,36 @@
+jul 22, 2026 12:08:39 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Iniciando SafeStore
+jul 22, 2026 12:08:39 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Mostrando formulario de login
+jul 22, 2026 12:09:47 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Iniciando SafeStore
+jul 22, 2026 12:09:47 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Mostrando formulario de login
+jul 22, 2026 12:09:57 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adada rol: Manager
+jul 22, 2026 12:09:57 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adada
+jul 22, 2026 12:09:58 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adada rol: Manager
+jul 22, 2026 12:09:58 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adada
+jul 22, 2026 12:09:58 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adada rol: Manager
+jul 22, 2026 12:09:59 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adada
+jul 22, 2026 12:14:00 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Iniciando SafeStore
+jul 22, 2026 12:14:00 P. M. ec.edu.espe.safestore.view.FrmLogin main
+INFO: Mostrando formulario de login
+jul 22, 2026 12:15:00 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adsa rol: Manager
+jul 22, 2026 12:15:01 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adsa
+jul 22, 2026 12:15:01 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adsa rol: Manager
+jul 22, 2026 12:15:01 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adsa
+jul 22, 2026 12:15:01 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+INFO: Intento de login usuario: adsa rol: Manager
+jul 22, 2026 12:15:01 P. M. ec.edu.espe.safestore.view.FrmLogin btnLoginActionPerformed
+WARNING: Login fallido usuario: adsa

@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ec.edu.espe.safestore.view;
-
+import ec.edu.espe.safestore.utils.LoggerUtil;
+import java.util.logging.Logger;
 import ec.edu.espe.safestore.controller.interfaces.IAuthController;
 import ec.edu.espe.safestore.utils.ServiceFactory;
 
@@ -12,6 +13,7 @@ import ec.edu.espe.safestore.utils.ServiceFactory;
  * @author Joel Sanchez, The Softwarriors, @ESPE
  */
 public class FrmLogin extends javax.swing.JFrame {
+    private static final Logger logger = LoggerUtil.getLogger();
 
     private IAuthController authController;
 
@@ -199,24 +201,37 @@ public class FrmLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        String username = txtUsername.getText().trim();
-        String password = new String(txtPassword.getPassword());
-        String role = (String) cbRole.getSelectedItem();
+private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
-        if (username.isEmpty() || password.isEmpty()) {
-            lblStatus.setText("Please fill all fields");
-            return;
-        }
+    String username = txtUsername.getText().trim();
+    String password = new String(txtPassword.getPassword());
+    String role = (String) cbRole.getSelectedItem();
 
-        if (authController.authenticate(username, password, role)) {
-            lblStatus.setText("");
-            dispose();
-            new FrmMain(role, username).setVisible(true);
-        } else {
-            lblStatus.setText("Invalid username or password");
-        }
-    }                                        
+    logger.info("Intento de login usuario: " + username + " rol: " + role);
+
+    if (username.isEmpty() || password.isEmpty()) {
+        lblStatus.setText("Please fill all fields");
+
+        logger.warning("Login rechazado: campos vacios");
+
+        return;
+    }
+
+    if (authController.authenticate(username, password, role)) {
+
+        logger.info("Login exitoso usuario: " + username);
+
+        lblStatus.setText("");
+        dispose();
+        new FrmMain(role, username).setVisible(true);
+
+    } else {
+
+        logger.warning("Login fallido usuario: " + username);
+
+        lblStatus.setText("Invalid username or password");
+    }
+}                                       
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {                                         
         new FrmRegister().setVisible(true);
@@ -226,30 +241,34 @@ public class FrmLogin extends javax.swing.JFrame {
         new FrmRecoverPassword().setVisible(true);
     }                                        
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+public static void main(String args[]) {
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmLogin().setVisible(true);
+    logger.info("Iniciando SafeStore");
+
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info :
+                javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        });
+        }
+    } catch (ClassNotFoundException ex) {
+        logger.severe(ex.getMessage());
+    } catch (InstantiationException ex) {
+        logger.severe(ex.getMessage());
+    } catch (IllegalAccessException ex) {
+        logger.severe(ex.getMessage());
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        logger.severe(ex.getMessage());
     }
+
+    logger.info("Mostrando formulario de login");
+
+    java.awt.EventQueue.invokeLater(() -> {
+        new FrmLogin().setVisible(true);
+    });
+}
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton btnLogin;

@@ -47,7 +47,6 @@ ec\edu\espe\safestore\view\panels\PnlBackup$4.class
 ec\edu\espe\safestore\controller\ExpirationController.class
 ec\edu\espe\safestore\view\panels\PnlStock$2.class
 ec\edu\espe\safestore\view\panels\PnlCash$4.class
-ec\edu\espe\safestore\view\FrmLogin$4.class
 ec\edu\espe\safestore\view\FrmLogin.class
 ec\edu\espe\safestore\model\Combo.class
 ec\edu\espe\safestore\view\panels\PnlUI.class
@@ -83,6 +82,7 @@ ec\edu\espe\safestore\view\panels\PnlProduct$2.class
 ec\edu\espe\safestore\view\FrmRecoverPassword$1.class
 ec\edu\espe\safestore\view\panels\PnlCash$1.class
 ec\edu\espe\safestore\model\Backup.class
+ec\edu\espe\safestore\utils\LoggerUtil.class
 ec\edu\espe\safestore\view\panels\PnlUI$1.class
 ec\edu\espe\safestore\view\panels\PnlExpiration$2.class
 ec\edu\espe\safestore\service\interfaces\IAuthService.class
